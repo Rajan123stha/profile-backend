@@ -32,8 +32,8 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  
-  cors: ['http://localhost:5173'], // or wherever your React app runs
+
+  cors: ['http://localhost:5173', 'http://dilgurung.com.s3-website.eu-north-1.amazonaws.com','https://dilgurung.com'], // or wherever your React app runs
 
   sharp,
   plugins: [
@@ -41,3 +41,4 @@ export default buildConfig({
     // storage-adapter-placeholder
   ],
 })
+
