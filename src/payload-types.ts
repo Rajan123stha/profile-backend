@@ -69,6 +69,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    blogs: Blog;
+    profile: Profile;
+    'social-links': SocialLink;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +80,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    blogs: BlogsSelect<false> | BlogsSelect<true>;
+    profile: ProfileSelect<false> | ProfileSelect<true>;
+    'social-links': SocialLinksSelect<false> | SocialLinksSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -158,6 +164,94 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs".
+ */
+export interface Blog {
+  id: string;
+  title: string;
+  slug: string;
+  bannerImage?: (string | null) | Media;
+  writer: string;
+  publishDate: string;
+  summary?: string | null;
+  sections?:
+    | {
+        heading: string;
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profile".
+ */
+export interface Profile {
+  id: string;
+  title: string;
+  story?:
+    | {
+        year: string;
+        description?: string | null;
+        image?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  paragraph: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-links".
+ */
+export interface SocialLink {
+  id: string;
+  title: string;
+  socialLinks?: {
+    facebook?: string | null;
+    instagram?: string | null;
+    snapchat?: string | null;
+    linkedin?: string | null;
+    twitter?: string | null;
+    youtube?: string | null;
+    tiktok?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -170,6 +264,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'blogs';
+        value: string | Blog;
+      } | null)
+    | ({
+        relationTo: 'profile';
+        value: string | Profile;
+      } | null)
+    | ({
+        relationTo: 'social-links';
+        value: string | SocialLink;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -252,6 +358,65 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs_select".
+ */
+export interface BlogsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  bannerImage?: T;
+  writer?: T;
+  publishDate?: T;
+  summary?: T;
+  sections?:
+    | T
+    | {
+        heading?: T;
+        content?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profile_select".
+ */
+export interface ProfileSelect<T extends boolean = true> {
+  title?: T;
+  story?:
+    | T
+    | {
+        year?: T;
+        description?: T;
+        image?: T;
+        id?: T;
+      };
+  paragraph?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "social-links_select".
+ */
+export interface SocialLinksSelect<T extends boolean = true> {
+  title?: T;
+  socialLinks?:
+    | T
+    | {
+        facebook?: T;
+        instagram?: T;
+        snapchat?: T;
+        linkedin?: T;
+        twitter?: T;
+        youtube?: T;
+        tiktok?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

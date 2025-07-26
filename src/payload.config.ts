@@ -9,6 +9,9 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import Blogs from './collections/Blogs'
+import Profile from './collections/Profile'
+import SocialLinks from './collections/SocialLinks'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -20,7 +23,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Blogs,Profile, SocialLinks],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -29,6 +32,9 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
+  
+  cors: ['http://localhost:5173'], // or wherever your React app runs
+
   sharp,
   plugins: [
     payloadCloudPlugin(),
